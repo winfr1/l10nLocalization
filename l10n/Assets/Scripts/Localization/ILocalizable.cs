@@ -7,7 +7,7 @@ namespace l10n.Localization
     /// <summary>
     /// Implemented by Localizable Components.
     /// </summary>
-    internal interface ILocalizable
+    public interface ILocalizable
     {
         /// <summary>
         /// Updates the Value according to the current locale <see cref="ILocalizationObservable.CurrentLocale"/>

@@ -319,13 +319,17 @@
 -r:"Library/Bee/artifacts/1900b0aEDbg.dag/UnityEngine.UI.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aEDbg.dag/VSSettingsProvider.ref.dll"
 "Assets/Scripts/Common/Singleton.cs"
+"Assets/Scripts/Localization/AbstractLocalizationObserver.cs"
+"Assets/Scripts/Localization/AbstractLocalizedObject.cs"
 "Assets/Scripts/Localization/ILocaleChangedEventArgs.cs"
 "Assets/Scripts/Localization/ILocalizable.cs"
-"Assets/Scripts/Localization/ILocalizationDataHandler.cs"
 "Assets/Scripts/Localization/ILocalizationObservable.cs"
-"Assets/Scripts/Localization/ILocalizationObserver.cs"
 "Assets/Scripts/Localization/ILocalizationProvider.cs"
+"Assets/Scripts/Localization/l10nManager.cs"
 "Assets/Scripts/Localization/LocaleChangedEventArgs.cs"
+"Assets/Scripts/Localization/LocalizationPrefsUpdater.cs"
+"Assets/Scripts/Localization/Sources/AbstractDataHandler.cs"
+"Assets/Scripts/Localization/Sources/ILocalizationDataHandler.cs"
 -langversion:8.0
 
 /deterministic

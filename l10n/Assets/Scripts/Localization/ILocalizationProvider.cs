@@ -7,7 +7,7 @@ namespace l10n.Localization
     /// <summary>
     /// Provides Localization Services for <see cref="ILocalizable"/> objects.
     /// </summary>
-    internal interface ILocalizationProvider<out R>
+    public interface ILocalizationProvider<out R>
     {
         /// <summary>
         /// Retrieves a translation for a given key. 

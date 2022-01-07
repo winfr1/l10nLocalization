@@ -9,13 +9,16 @@ namespace l10n.Localization
     /// Provides Methods for Observable Localization Object. 
     /// <see cref="ILocalizationObserver"/> registers to this Interface.
     /// </summary>
-    internal interface ILocalizationObservable
+    public interface ILocalizationObservable
     {
         /// <summary>
         /// Callback when the currently selected Locale <see cref="CurrentLocale"/> changes. 
         /// </summary>
         event EventHandler<ILocaleChangedEventArgs> LocaleChanged;
 
+        /// <summary>
+        /// The currently selected language setting.
+        /// </summary>
         string CurrentLocale { get; set; }
 
     }
