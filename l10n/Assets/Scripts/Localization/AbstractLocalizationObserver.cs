@@ -1,3 +1,4 @@
+using l10n.Localization.provider;
 using System;
 using UnityEngine;
 

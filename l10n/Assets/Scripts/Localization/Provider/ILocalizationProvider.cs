@@ -1,3 +1,4 @@
+using l10n.Localization.translations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,10 +11,17 @@ namespace l10n.Localization.provider
     public interface ILocalizationProvider<out R>
     {
         /// <summary>
+        /// List of Translation Objects provided
+        /// </summary>
+        IList<AbstractTranslation> Translations { get; }
+
+        /// <summary>
         /// Retrieves a translation for a given key. 
         /// </summary>
         /// <param name="key">The key mapped to the translation.</param>
         /// <returns>The translated object.</returns>
-        R translate(string key);
+        R Translate(string key);
+
+
     }
 }

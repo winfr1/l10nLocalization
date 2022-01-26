@@ -1,3 +1,4 @@
+using l10n.common;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,6 +12,11 @@ namespace l10n.Localization.provider
     /// </summary>
     public interface ILocalizationObservable
     {
+        /// <summary>
+        /// Reference to <see cref="ILocalizationLogger"/> object that logs events to the console.
+        /// </summary>
+        ILocalizationLogger Logger { get; }
+
         /// <summary>
         /// Callback when the currently selected Locale <see cref="CurrentLocale"/> changes. 
         /// </summary>

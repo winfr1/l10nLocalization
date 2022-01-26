@@ -5,6 +5,9 @@
     /// </summary>
     public interface ILocaleChangedEventArgs
     {
+        /// <summary>
+        /// New Language that was selected.
+        /// </summary>
          string NewLocale { get; }
     }
 }
