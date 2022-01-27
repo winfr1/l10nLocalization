@@ -1,5 +1,4 @@
-using l10n.Localization.provider;
-using System;
+using l10n.Localization.observables;
 using UnityEngine;
 
 namespace l10n.Localization

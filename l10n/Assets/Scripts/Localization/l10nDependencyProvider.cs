@@ -1,7 +1,7 @@
 ﻿using l10n.common;
+using l10n.Localization.observables;
 using l10n.Localization.provider;
 using l10n.Localization.translations;
-using System.Collections;
 using UnityEngine;
 
 namespace l10n.Localization
@@ -26,7 +26,7 @@ namespace l10n.Localization
 
         [SerializeField]
         private ILocalizationProvider s_provider;
-        public ILocalizationProvider Provider => s_provider ?? (s_provider = l10nManager.Instance);
+        public ILocalizationProvider Provider => s_provider ?? (s_provider = new LocalizationProvider());
 
 
         protected override void Awake()

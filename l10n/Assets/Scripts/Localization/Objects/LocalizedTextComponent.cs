@@ -1,7 +1,4 @@
-using l10n.Localization.provider;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using l10n.Localization.observables;
 namespace l10n.Localization.objects
 {
     /// <summary>

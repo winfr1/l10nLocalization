@@ -1,4 +1,5 @@
 using l10n.common;
+using l10n.Localization.observables;
 using l10n.Localization.provider;
 using System;
 

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 namespace l10n.Localization.provider
 {
     /// <summary>
@@ -22,6 +23,8 @@ namespace l10n.Localization.provider
         /// <param name="key">The key mapped to the translation.</param>
         /// <returns>The translated object.</returns>
         AbstractTranslation Translate(string key);
+
+        void LoadTranslationsAsync();
 
         /// <summary>
         /// Registers a Translation from a <see cref="ILocalizationDataHandler"/> Object.
