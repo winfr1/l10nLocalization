@@ -7,7 +7,18 @@ namespace l10n.common
     {
         public void Log(string message, LogType type)
         {
-            throw new System.NotImplementedException();
+            switch(type)
+            {
+                case LogType.Error:
+                    Debug.LogError(message);
+                    break;
+                case LogType.Warning:
+                    Debug.LogWarning(message);
+                    break;
+                default:
+                    Debug.Log(message);
+                    break;
+            }
         }
     }
 }

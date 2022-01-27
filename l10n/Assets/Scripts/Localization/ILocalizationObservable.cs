@@ -1,10 +1,8 @@
 using l10n.common;
+using l10n.Localization.provider;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-namespace l10n.Localization.provider
+namespace l10n.Localization
 {
     /// <summary>
     /// Provides Methods for Observable Localization Object. 

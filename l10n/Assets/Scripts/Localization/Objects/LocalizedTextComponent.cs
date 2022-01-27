@@ -9,9 +9,14 @@ namespace l10n.Localization.objects
     /// </summary>
     public class LocalizedTextComponent : AbstractLocalizedComponent
     {
-        protected override void OnLocaleChanged(object sender, ILocaleChangedEventArgs args)
+        public override void UpdateValue()
         {
             throw new System.NotImplementedException();
+        }
+
+        protected override void OnLocaleChanged(object sender, ILocaleChangedEventArgs args)
+        {
+            UpdateValue();
         }
     }
 }

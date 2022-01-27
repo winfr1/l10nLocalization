@@ -4,11 +4,14 @@ using UnityEngine;
 
 namespace l10n.Localization.sources
 {
+    /// <summary>
+    /// Serializes CSV file and adds translations to the <see cref="ILocalizationProvider"/>
+    /// </summary>
     public class CSVDataHandler : AbstractDataHandler
     {
-        protected override void OnLocaleChanged(object sender, ILocaleChangedEventArgs args)
+        public override void LoadTranslations(string locale)
         {
-            throw new System.NotImplementedException();
+            l10nDependencyProvider.Instance.Provider.RegisterTranslation("test", "de", "Wert der Übersetzung", this);
         }
     }
 }

@@ -1,4 +1,5 @@
 using l10n.common;
+using l10n.Localization.sources;
 using l10n.Localization.translations;
 using System;
 using System.Collections;
@@ -16,31 +17,18 @@ namespace l10n.Localization.provider
     {
 
         #region Properties
-
+        [SerializeField]
         private ILocalizationLogger s_logger;
+        public ILocalizationLogger Logger => s_logger ?? (s_logger = new LocalizationLogger());
 
+        [SerializeField]
         private string s_currentLocale;
-
-        private List<AbstractTranslation> s_translations;
-
-        #endregion
-
-        #region Contructor
-        /// <summary>
-        /// Private Constructor to prevent creation of other Instances.
-        /// </summary>
-        private l10nManager() { }
-
-
-        #region ILocalizationObservable
-        
-        public ILocalizationLogger Logger => s_logger;
-
         public string CurrentLocale
         {
             get { return s_currentLocale; }
             set
             {
+                Logger.Log(string.Format("Localization Changed from {0} to {1}", s_currentLocale, value), LogType.Log);
                 s_currentLocale = value;
                 LocaleChangedEventArgs args = new LocaleChangedEventArgs(s_currentLocale);
                 LocaleChanged.Invoke(this, args);
@@ -49,28 +37,33 @@ namespace l10n.Localization.provider
 
         public event EventHandler<ILocaleChangedEventArgs> LocaleChanged;
 
+        [SerializeField]
+        private ILocalizationDataHandler s_dataHandler;
+
+        [SerializeField]
+        private List<AbstractTranslation> s_translations;
+        public IList<AbstractTranslation> Translations => s_translations ?? throw new Exception();
+
         #endregion
 
-        #region ILocalizationProvider
+        /// <summary>
+        /// Private Constructor to prevent creation of other Instances.
+        /// </summary>
+        private l10nManager() { }
 
-        public IList<AbstractTranslation> Translations => s_translations;
+
+        #region ILocalizationProvider
 
         public AbstractTranslation Translate(string key)
         {
             throw new NotImplementedException();
         }
+
+        public bool RegisterTranslation(string key, string locale, object value, object owner)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
-
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
     }
 }

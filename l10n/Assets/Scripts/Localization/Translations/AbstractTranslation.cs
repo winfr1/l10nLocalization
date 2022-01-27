@@ -8,7 +8,7 @@ namespace l10n.Localization.translations
     {
         protected string key;
 
-        protected string language;
+        protected string locale;
 
         protected object value;
 
