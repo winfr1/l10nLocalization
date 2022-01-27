@@ -326,7 +326,6 @@
 "Assets/Scripts/Localization/Objects/AbstractLocalizedObject.cs"
 "Assets/Scripts/Localization/Objects/ILocalizable.cs"
 "Assets/Scripts/Localization/Objects/LocalizedTextComponent.cs"
-"Assets/Scripts/Localization/Provider/AbstractLocalizationManager.cs"
 "Assets/Scripts/Localization/Provider/ILocaleChangedEventArgs.cs"
 "Assets/Scripts/Localization/Provider/ILocalizationGenerator.cs"
 "Assets/Scripts/Localization/Provider/ILocalizationObservable.cs"

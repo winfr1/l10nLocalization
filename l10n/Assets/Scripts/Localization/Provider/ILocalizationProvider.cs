@@ -8,7 +8,7 @@ namespace l10n.Localization.provider
     /// <summary>
     /// Provides Localization Services for <see cref="ILocalizable"/> objects.
     /// </summary>
-    public interface ILocalizationProvider<out R>
+    public interface ILocalizationProvider
     {
         /// <summary>
         /// List of Translation Objects provided
@@ -20,7 +20,7 @@ namespace l10n.Localization.provider
         /// </summary>
         /// <param name="key">The key mapped to the translation.</param>
         /// <returns>The translated object.</returns>
-        R Translate(string key);
+        AbstractTranslation Translate(string key);
 
 
     }
