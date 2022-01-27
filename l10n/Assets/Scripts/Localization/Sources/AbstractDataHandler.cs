@@ -5,7 +5,7 @@ namespace l10n.Localization.sources
     /// <summary>
     /// Base class for Data Sources.
     /// </summary>
-    public abstract class AbstractDataHandler : AbstractLocalizationObserver, ILocalizationDataHandler
+    public abstract class AbstractDataHandler : ILocalizationDataHandler
     {
         #region AbstractLocalizationObserver
 
@@ -21,9 +21,14 @@ namespace l10n.Localization.sources
         #endregion
 
         #region Lifecycle
-        protected override void Awake()
+        protected virtual void Awake()
         {
-            base.Awake();
+            l10nDependencyProvider.Instance.Provider.register(this);
+        }
+
+        protected virtual void OnDisable()
+        {
+            l10nDependencyProvider.Instance.Provider.unregister(this);
         }
 
         #endregion

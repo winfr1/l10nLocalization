@@ -24,7 +24,9 @@ namespace l10n.Localization
         /// <summary>
         /// The currently selected language setting.
         /// </summary>
-        string CurrentLocale { get; set; }
+        string CurrentLocale { get; }
+
+        void LoadLocale(string newLocale);
 
     }
 }

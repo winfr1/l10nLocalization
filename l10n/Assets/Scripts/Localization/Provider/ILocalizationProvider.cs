@@ -1,7 +1,9 @@
+using l10n.Localization.sources;
 using l10n.Localization.translations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 
@@ -17,6 +19,8 @@ namespace l10n.Localization.provider
         /// </summary>
         IList<AbstractTranslation> Translations { get; }
 
+        IList<ILocalizationDataHandler> DataHandlers { get; }
+
         /// <summary>
         /// Retrieves a translation for a given key. 
         /// </summary>
@@ -24,7 +28,22 @@ namespace l10n.Localization.provider
         /// <returns>The translated object.</returns>
         AbstractTranslation Translate(string key);
 
-        void LoadTranslationsAsync();
+        /// <summary>
+        /// Loads all Translations from registered <see cref="ILocalizationDataHandler"/> asynchronously. 
+        /// </summary>
+        Task LoadTranslationsAsync();
+
+        /// <summary>
+        /// Unregisters <see cref="ILocalizationDataHandler"/> to this LocalizationProvider.
+        /// </summary>
+        /// <param name="handler"></param>
+        void register(ILocalizationDataHandler handler);
+
+        /// <summary>
+        /// Unregisters <see cref="ILocalizationDataHandler"/> to this LocalizationProvider.
+        /// </summary>
+        /// <param name="handler"></param>
+        void unregister(ILocalizationDataHandler handler);
 
         /// <summary>
         /// Registers a Translation from a <see cref="ILocalizationDataHandler"/> Object.

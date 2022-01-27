@@ -14,7 +14,12 @@ namespace l10n.Localization
         #region Lifecycle
         protected virtual void Awake()
         {
-            l10nManager.Instance.LocaleChanged += OnLocaleChanged;
+            l10nDependencyProvider.Instance.Observable.LocaleChanged += OnLocaleChanged;
+        }
+
+        protected virtual void OnDisable()
+        {
+            l10nDependencyProvider.Instance.Observable.LocaleChanged -= OnLocaleChanged;
         }
 
         #endregion
