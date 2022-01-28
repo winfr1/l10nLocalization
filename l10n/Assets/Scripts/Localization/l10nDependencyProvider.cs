@@ -17,10 +17,6 @@ namespace l10n.Localization
         private l10nDependencyProvider() { }
 
         [SerializeField]
-        private ILocalizationGenerator s_generator;
-        public ILocalizationGenerator Generator => s_generator ?? (s_generator = new TranslationFactory());
-
-        [SerializeField]
         private ILocalizationObservable s_observable;
         public ILocalizationObservable Observable => s_observable ?? (s_observable = l10nManager.Instance);
 

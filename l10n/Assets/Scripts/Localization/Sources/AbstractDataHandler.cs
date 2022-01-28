@@ -10,7 +10,7 @@ namespace l10n.Localization.sources
     public abstract class AbstractDataHandler : ILocalizationDataHandler
     {
         private ILocalizationProvider s_provider;
-        public ILocalizationProvider Provider => s_provider ?? (s_provider = l10nDependencyProvider.Instance.Provider);
+        protected ILocalizationProvider Provider => s_provider ?? (s_provider = l10nDependencyProvider.Instance.Provider);
 
         #region ILocalizationDataHandler
         public abstract Task LoadTranslations(string locale);
@@ -19,12 +19,12 @@ namespace l10n.Localization.sources
         #region Lifecycle
         protected virtual void Awake()
         {
-            Provider.register(this);
+            Provider.RegisterHandler(this);
         }
 
         protected virtual void OnDisable()
         {
-            Provider.unregister(this);
+            Provider.UnregisterHandler(this);
         }
 
         #endregion

@@ -1,9 +1,6 @@
 using l10n.common;
 using l10n.Localization.provider;
-using l10n.Localization.sources;
-using l10n.Localization.translations;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,7 +20,7 @@ namespace l10n.Localization.observables
 
         [SerializeField]
         private string s_currentLocale;
-        public string CurrentLocale => s_currentLocale;
+        public string CurrentLocale => s_currentLocale ?? string.Empty;
 
         private event EventHandler<ILocaleChangedEventArgs> s_localeChanged;
 

@@ -17,7 +17,7 @@ namespace l10n.Localization.provider
         /// <summary>
         /// List of Translation Objects provided
         /// </summary>
-        IList<AbstractTranslation> Translations { get; }
+        IReadOnlyDictionary<string, AbstractTranslation> Translations { get; }
 
         IList<ILocalizationDataHandler> DataHandlers { get; }
 
@@ -37,13 +37,18 @@ namespace l10n.Localization.provider
         /// Unregisters <see cref="ILocalizationDataHandler"/> to this LocalizationProvider.
         /// </summary>
         /// <param name="handler"></param>
-        void register(ILocalizationDataHandler handler);
+        void RegisterHandler(ILocalizationDataHandler handler);
 
         /// <summary>
         /// Unregisters <see cref="ILocalizationDataHandler"/> to this LocalizationProvider.
         /// </summary>
         /// <param name="handler"></param>
-        void unregister(ILocalizationDataHandler handler);
+        void UnregisterHandler(ILocalizationDataHandler handler);
+
+        /// <summary>
+        /// Returns the <see cref="ILocalizationGenerator"/> that generates Translations.
+        /// </summary>
+        ILocalizationGenerator Generator { get; }
 
         /// <summary>
         /// Registers a Translation from a <see cref="ILocalizationDataHandler"/> Object.

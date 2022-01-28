@@ -23,6 +23,11 @@ namespace l10n.Localization
         event EventHandler<ILocaleChangedEventArgs> LocaleChanged;
 
         /// <summary>
+        /// Current State of the object.
+        /// </summary>
+        LocalizationObservableState State { get; }
+
+        /// <summary>
         /// Callback when the <see cref="LocalizationObservableState"/> Changes
         /// </summary>
         event Action<LocalizationObservableState> StateChanged;
