@@ -18,7 +18,7 @@ namespace l10n.Localization
         protected override void Awake()
         {
             base.Awake();
-            l10nDependencyProvider.Instance.Observable.CurrentLocale = PlayerPrefs.GetString(prefsKey);
+            l10nDependencyProvider.Instance.Observable.SetLocale(PlayerPrefs.GetString(prefsKey));
         }
     }
 }

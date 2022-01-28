@@ -1,4 +1,6 @@
 using l10n.Localization.observables;
+using l10n.Localization.provider;
+using System.Threading.Tasks;
 
 namespace l10n.Localization.sources
 {
@@ -7,28 +9,22 @@ namespace l10n.Localization.sources
     /// </summary>
     public abstract class AbstractDataHandler : ILocalizationDataHandler
     {
-        #region AbstractLocalizationObserver
-
-        protected override void OnLocaleChanged(object sender, ILocaleChangedEventArgs args)
-        {
-            LoadTranslations(args.NewLocale);
-        }
-
-        #endregion
+        private ILocalizationProvider s_provider;
+        public ILocalizationProvider Provider => s_provider ?? (s_provider = l10nDependencyProvider.Instance.Provider);
 
         #region ILocalizationDataHandler
-        public abstract void LoadTranslations(string locale);
+        public abstract Task LoadTranslations(string locale);
         #endregion
 
         #region Lifecycle
         protected virtual void Awake()
         {
-            l10nDependencyProvider.Instance.Provider.register(this);
+            Provider.register(this);
         }
 
         protected virtual void OnDisable()
         {
-            l10nDependencyProvider.Instance.Provider.unregister(this);
+            Provider.unregister(this);
         }
 
         #endregion

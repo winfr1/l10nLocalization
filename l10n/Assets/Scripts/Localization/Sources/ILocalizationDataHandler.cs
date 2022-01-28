@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace l10n.Localization.sources
@@ -13,7 +14,7 @@ namespace l10n.Localization.sources
         /// Reloads the translations for the given locale.
         /// </summary>
         /// <param name="locale">The locale that should be loaded</param>
-        void LoadTranslations(string locale);
+        Task LoadTranslations(string locale);
 
     }
 }

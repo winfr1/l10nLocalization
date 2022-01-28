@@ -2,6 +2,7 @@ using l10n.common;
 using l10n.Localization.observables;
 using l10n.Localization.provider;
 using System;
+using System.Collections.Generic;
 
 namespace l10n.Localization
 {
@@ -22,11 +23,25 @@ namespace l10n.Localization
         event EventHandler<ILocaleChangedEventArgs> LocaleChanged;
 
         /// <summary>
+        /// Callback when the <see cref="LocalizationObservableState"/> Changes
+        /// </summary>
+        event Action<LocalizationObservableState> StateChanged;
+
+        /// <summary>
+        /// Returns all available Languages for this application.
+        /// </summary>
+        IList<string> AvailableLanguages { get; }
+
+        /// <summary>
         /// The currently selected language setting.
         /// </summary>
         string CurrentLocale { get; }
 
-        void LoadLocale(string newLocale);
+        /// <summary>
+        /// Loads a new application language.
+        /// </summary>
+        /// <param name="newLocale">Language to be loaded</param>
+        void SetLocale(string newLocale);
 
     }
 }

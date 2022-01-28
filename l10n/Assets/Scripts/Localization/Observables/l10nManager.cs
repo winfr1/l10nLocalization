@@ -1,4 +1,5 @@
 using l10n.common;
+using l10n.Localization.provider;
 using l10n.Localization.sources;
 using l10n.Localization.translations;
 using System;
@@ -12,7 +13,6 @@ namespace l10n.Localization.observables
     /// Central Manager for localization settings of the application. 
     /// Does all localization processing and generation of translations during runtime. 
     /// </summary>
-
     public class l10nManager : Singleton<l10nManager>, ILocalizationObservable
     {
 
@@ -23,18 +23,8 @@ namespace l10n.Localization.observables
 
         [SerializeField]
         private string s_currentLocale;
-        public string CurrentLocale
-        {
-            get { return s_currentLocale; }
-            set
-            {
-                Logger.Log(string.Format("Localization Changed from {0} to {1}", s_currentLocale, value), LogType.Log);
-                s_currentLocale = value;
-                await l10nDependencyProvider.Instance.Provider.LoadTranslationsAsync();
-                LocaleChangedEventArgs args = new LocaleChangedEventArgs(s_currentLocale);
-                s_localeChanged.Invoke(this, args);
-            }
-        }
+        public string CurrentLocale => s_currentLocale;
+
         private event EventHandler<ILocaleChangedEventArgs> s_localeChanged;
 
         public event EventHandler<ILocaleChangedEventArgs> LocaleChanged
@@ -49,8 +39,25 @@ namespace l10n.Localization.observables
             }
         }
 
+        private LocalizationObservableState s_state = LocalizationObservableState.Initializing;
+        public LocalizationObservableState State
+        {
+            get { return s_state; }
+            set
+            {
+                s_state = value;
+                StateChanged.Invoke(s_state);
+            }
+        }
+
+        public event Action<LocalizationObservableState> StateChanged;
+
         [SerializeField]
-        private ILocalizationDataHandler s_dataHandler;
+        private ILocalizationProvider s_provider;
+        public ILocalizationProvider Provider => s_provider ?? (s_provider = l10nDependencyProvider.Instance.Provider);
+
+        private List<string> s_availableLangauges;
+        public IList<string> AvailableLanguages => s_availableLangauges ?? (s_availableLangauges = new List<string>());
 
         #endregion
 
@@ -59,5 +66,26 @@ namespace l10n.Localization.observables
         /// </summary>
         private l10nManager() { }
 
+        public void SetLocale(string newLocale)
+        {
+            s_currentLocale = newLocale;
+            
+            State = LocalizationObservableState.LocaleChanged;
+
+            Logger.Log(string.Format("New Locale {0} was set, loading translations", newLocale), LogType.Log);
+
+            LoadLocaleAsync(newLocale);
+        }
+
+        private async void LoadLocaleAsync(string locale)
+        {
+            State = LocalizationObservableState.LoadingLocale;
+
+            await Provider.LoadTranslationsAsync(locale);
+
+            s_localeChanged.Invoke(this, new LocaleChangedEventArgs(s_currentLocale));
+
+            State = LocalizationObservableState.LocaleLoaded;
+        }
     }
 }

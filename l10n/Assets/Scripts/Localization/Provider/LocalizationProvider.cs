@@ -19,10 +19,13 @@ namespace l10n.Localization.provider
         private List<ILocalizationDataHandler> s_dataHandlers;
         public IList<ILocalizationDataHandler> DataHandlers => s_dataHandlers;
 
-        public async Task LoadTranslationsAsync()
+        public Task LoadTranslationsAsync(string locale)
         {
-            //TODO
-
+            foreach(var dataHandler in s_dataHandlers)
+            {
+                dataHandler.LoadTranslations(locale);
+            }
+            return Task.CompletedTask;
         }
 
         public void register(ILocalizationDataHandler handler)
