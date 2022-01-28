@@ -8,9 +8,19 @@ namespace l10n.Localization.observables
     /// </summary>
     public enum LocalizationObservableState
     {
+        /// <summary>
+        /// Used when the scene is first started
+        /// </summary>
         Initializing,
-        LocaleChanged,
+
+        /// <summary>
+        /// Reflecting the loading process of a new language
+        /// </summary>
         LoadingLocale,
+
+        /// <summary>
+        /// State when the <see cref="ILocalizationObservable"/> is initialized and the chosen language is loaded.
+        /// </summary>
         LocaleLoaded,
     }
 }

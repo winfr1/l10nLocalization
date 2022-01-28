@@ -8,7 +8,7 @@ namespace l10n.Localization.observables
 {
     /// <summary>
     /// Central Manager for localization settings of the application. 
-    /// Does all localization processing and generation of translations during runtime. 
+    /// Starts generation of translations during runtime. 
     /// </summary>
     public class l10nManager : Singleton<l10nManager>, ILocalizationObservable
     {
@@ -65,19 +65,20 @@ namespace l10n.Localization.observables
 
         public void SetLocale(string newLocale)
         {
-            s_currentLocale = newLocale;
-            
-            State = LocalizationObservableState.LocaleChanged;
+            if (s_currentLocale != newLocale)
+            {
+                s_currentLocale = newLocale;
 
-            Logger.Log(string.Format("New Locale {0} was set, loading translations", newLocale), LogType.Log);
+                State = LocalizationObservableState.LoadingLocale;
 
-            LoadLocaleAsync(newLocale);
+                Logger.Log(string.Format("New Locale {0} was set, loading translations", newLocale), LogType.Log);
+
+                LoadLocaleAsync(newLocale);
+            }
         }
 
         private async void LoadLocaleAsync(string locale)
         {
-            State = LocalizationObservableState.LoadingLocale;
-
             await Provider.LoadTranslationsAsync(locale);
 
             s_localeChanged.Invoke(this, new LocaleChangedEventArgs(s_currentLocale));

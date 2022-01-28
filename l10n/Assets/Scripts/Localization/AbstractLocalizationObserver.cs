@@ -1,25 +1,26 @@
 using l10n.Localization.observables;
 using UnityEngine;
+using System;
 
 namespace l10n.Localization
 {
 
     public abstract class AbstractLocalizationObserver : MonoBehaviour
     {
+        [NonSerialized]
+        private ILocalizationObservable s_observable;
 
-        #region properties
-
-        #endregion
+        protected ILocalizationObservable Observable => s_observable ?? (s_observable = l10nDependencyProvider.Instance.Observable);
 
         #region Lifecycle
         protected virtual void Awake()
         {
-            l10nDependencyProvider.Instance.Observable.LocaleChanged += OnLocaleChanged;
+            Observable.LocaleChanged += OnLocaleChanged;
         }
 
         protected virtual void OnDisable()
         {
-            l10nDependencyProvider.Instance.Observable.LocaleChanged -= OnLocaleChanged;
+            Observable.LocaleChanged -= OnLocaleChanged;
         }
 
         #endregion

@@ -1,19 +1,30 @@
+using l10n.Localization.objects.Exceptions;
 using l10n.Localization.observables;
+using UnityEngine;
+using UnityEngine.UI;
+
+
 namespace l10n.Localization.objects
 {
     /// <summary>
     /// Implementation for localizing components or scripts attached to gameobjects
     /// </summary>
-    public class LocalizedTextComponent : AbstractLocalizedComponent
+    [RequireComponent(typeof(Text))]
+    public class LocalizedTextComponent : AbstractLocalizedComponent<Text>
     {
         public override void UpdateValue()
         {
-            throw new System.NotImplementedException();
-        }
-
-        protected override void OnLocaleChanged(object sender, ILocaleChangedEventArgs args)
-        {
-            UpdateValue();
+            try
+            {
+                var translation = Provider.Translate(key);
+                Component.text = (string)translation.Value;
+            }
+            catch (TranslationNotFoundException e)
+            {
+                //TODO Fallback Value 
+                Observable.Logger.Log(e.Message, LogType.Exception);
+                return;
+            }
         }
     }
 }

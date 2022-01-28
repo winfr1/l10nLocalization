@@ -23,6 +23,7 @@ namespace l10n.Localization.provider
 
         /// <summary>
         /// Retrieves a translation for a given key. 
+        /// Throws a <see cref="TranslationNotFoundException"/> when there is no translation available for the given key.
         /// </summary>
         /// <param name="key">The key mapped to the translation.</param>
         /// <returns>The translated object.</returns>

@@ -6,13 +6,13 @@ namespace l10n.Localization.translations
 {
     public abstract class AbstractTranslation
     {
-        protected string key;
+        public string Key { get; }
 
-        protected string locale;
+        public string Locale { get; }
 
-        protected object value;
+        public object Value { get; }
 
-        protected object owner;
+        public object Owner { get; }
 
     }
 }
