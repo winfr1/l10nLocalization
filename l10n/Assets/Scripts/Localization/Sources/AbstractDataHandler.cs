@@ -15,13 +15,10 @@ namespace l10n.Localization.sources
 
         [SerializeField]
         private string m_translationLanguage;
-        protected string TranslationLanguage
+        public string TranslationLanguage
         {
             get => m_translationLanguage;
-            set
-            {
-                m_translationLanguage = value;
-            }
+            set { m_translationLanguage = value; }
         }
 
         #region ILocalizationDataHandler
@@ -34,16 +31,12 @@ namespace l10n.Localization.sources
         protected virtual void Awake()
         {
             LoadLocaleName();
-        }
-
-        protected virtual void OnEnable()
-        {
-            if (Application.isPlaying) Provider.RegisterHandler(TranslationLanguage, this);
+            if (Application.isPlaying) Provider.RegisterHandler(this);
         }
 
         protected virtual void OnDisable()
         {
-            if (Application.isPlaying) Provider.UnregisterHandler(TranslationLanguage, this);
+            if (Application.isPlaying) Provider.UnregisterHandler(this);
         }
         #endregion
     }

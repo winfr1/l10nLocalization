@@ -37,7 +37,6 @@ namespace l10n.Localization.sources
 
         public override Task LoadTranslations()
         {
-            Debug.Log("Loading Translations");
             string CSVFile = m_dataSource.text;
             string[] lines = GetDataLines(CSVFile);
 

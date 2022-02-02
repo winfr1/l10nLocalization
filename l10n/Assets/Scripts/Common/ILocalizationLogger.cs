@@ -14,6 +14,6 @@ namespace l10n.common
         /// </summary>
         /// <param name="message">Message to be logged</param>
         /// <param name="type">Severity of the log</param>
-        void Log(string message, LogType type);
+        void Log(string message, LogType type = LogType.Log);
     }
 }

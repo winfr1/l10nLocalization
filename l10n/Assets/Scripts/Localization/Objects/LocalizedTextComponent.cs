@@ -1,5 +1,6 @@
 using l10n.Localization.objects.Exceptions;
 using l10n.Localization.observables;
+using l10n.Localization.translations;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,13 +20,14 @@ namespace l10n.Localization.objects
             try
             {
                 Debug.Log("Trying to get Translation for key " + Key);
-                var translation = Provider.Translate(Key);
-                m_component.text = (string)translation.Value;
+                var translation = Provider.Translate(Key) as TextTranslation;
+                m_component.text = translation.Value;
             }
             catch (TranslationNotFoundException e)
             {
                 //TODO Fallback Value 
                 Debug.LogException(e);
+                m_component.text = "[NOT FOUND]";
                 return;
             }
         }

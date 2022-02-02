@@ -28,26 +28,27 @@ namespace l10n.Localization.provider
         {
             Translations.Clear();
             ILocalizationDataHandler handler;
-            if(DataHandlers.TryGetValue(locale, out handler))
+            if (DataHandlers.TryGetValue(locale, out handler))
             {
                 handler.LoadTranslations();
             }
             return Task.CompletedTask;
         }
 
-        public void RegisterHandler(string language, ILocalizationDataHandler handler)
+        public void RegisterHandler(ILocalizationDataHandler handler)
         {
-            DataHandlers.Add(language, handler);
-            l10nDependencyProvider.Observable.AvailableLanguages.Add(language);
+            Debug.Log("Registered Handler for locale "+handler.TranslationLanguage);
+            DataHandlers.Add(handler.TranslationLanguage, handler);
+            l10nDependencyProvider.Observable.AvailableLanguages.Add(handler.TranslationLanguage);
         }
 
-        public void UnregisterHandler(string language, ILocalizationDataHandler handler)
+        public void UnregisterHandler(ILocalizationDataHandler handler)
         {
-            DataHandlers.Remove(language);
-            l10nDependencyProvider.Observable.AvailableLanguages.Remove(language);
+            DataHandlers.Remove(handler.TranslationLanguage);
+            l10nDependencyProvider.Observable.AvailableLanguages.Remove(handler.TranslationLanguage);
         }
 
-        public bool RegisterTranslation(string key, string locale, object value, object owner)
+        public bool RegisterTranslation<T>(string key, string locale, T value, object owner)
         {
             try
             {
@@ -68,7 +69,8 @@ namespace l10n.Localization.provider
             if (Translations.TryGetValue(key, out translation))
             {
                 return translation;
-            } else
+            } 
+            else
             {
                 throw new TranslationNotFoundException(key);
             }

@@ -4,15 +4,24 @@ using UnityEngine;
 
 namespace l10n.Localization.translations
 {
+    /// <summary>
+    /// Parent Class for translations
+    /// </summary>
     public abstract class AbstractTranslation
     {
-        public string Key { get; }
+        protected string m_key;
+        public string Key => m_key;
 
-        public string Locale { get; }
+        protected string m_locale;
+        public string Locale => m_locale;
 
-        public object Value { get; }
+        protected object m_owner;
+        public object Owner => m_owner;
 
-        public object Owner { get; }
-
+        public AbstractTranslation(string key, string locale, object owner) {
+            m_key = key;
+            m_locale = locale;
+            m_owner = owner;
+        }
     }
 }

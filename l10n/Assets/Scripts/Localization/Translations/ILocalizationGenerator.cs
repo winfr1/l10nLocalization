@@ -12,7 +12,7 @@ namespace l10n.Localization.translations
         /// Generate Translation Object from given Key and Value.
         /// </summary>
         /// <param name="locale">Locale that is loaded</param>
-        AbstractTranslation GenerateTranslation(string key, string locale, object value, object owner);
+        AbstractTranslation GenerateTranslation<T>(string key, string locale, T value, object owner);
 
     }
 }

@@ -11,6 +11,12 @@ namespace l10n.Localization.sources
     public interface ILocalizationDataHandler
     {
         /// <summary>
+        /// Language that the data handler manages
+        /// </summary>
+        /// <returns></returns>
+        string TranslationLanguage { get; set; }
+
+        /// <summary>
         /// Reloads the translations for the given locale.
         /// </summary>
         Task LoadTranslations();

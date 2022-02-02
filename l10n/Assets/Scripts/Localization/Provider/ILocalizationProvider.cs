@@ -1,3 +1,4 @@
+using l10n.common;
 using l10n.Localization.sources;
 using l10n.Localization.translations;
 using System;
@@ -38,13 +39,13 @@ namespace l10n.Localization.provider
         /// Unregisters <see cref="ILocalizationDataHandler"/> to this LocalizationProvider.
         /// </summary>
         /// <param name="handler"></param>
-        void RegisterHandler(string language, ILocalizationDataHandler handler);
+        void RegisterHandler(ILocalizationDataHandler handler);
 
         /// <summary>
         /// Unregisters <see cref="ILocalizationDataHandler"/> to this LocalizationProvider.
         /// </summary>
         /// <param name="handler"></param>
-        void UnregisterHandler(string language, ILocalizationDataHandler handler);
+        void UnregisterHandler(ILocalizationDataHandler handler);
 
         /// <summary>
         /// Returns the <see cref="ILocalizationGenerator"/> that generates Translations.
@@ -57,6 +58,6 @@ namespace l10n.Localization.provider
         /// <param name="key">Key to identify the translation</param>
         /// <param name="value">value of localization</param>
         /// <returns></returns>
-        bool RegisterTranslation(string key, string locale, object value, object owner);
+        bool RegisterTranslation<T>(string key, string locale, T value, object owner);
     }
 }
