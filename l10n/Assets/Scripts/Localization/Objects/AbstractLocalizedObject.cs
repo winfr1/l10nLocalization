@@ -34,6 +34,12 @@ namespace l10n.Localization.objects
             UpdateValue();
         }
 
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            UpdateValue();
+        }
+
         public abstract void UpdateValue();
     }
 }

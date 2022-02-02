@@ -46,7 +46,7 @@ namespace l10n.Localization
         /// Loads a new application language.
         /// </summary>
         /// <param name="newLocale">Language to be loaded</param>
-        void SetLocale(string newLocale);
+        void SetLocale(string newLocale, bool forceReload = false);
 
     }
 }

@@ -26,7 +26,6 @@ namespace l10n.Localization.provider
 
         public Task LoadTranslationsAsync(string locale)
         {
-            Debug.Log("Loading Translations LocProvider");
             Translations.Clear();
             ILocalizationDataHandler handler;
             if(DataHandlers.TryGetValue(locale, out handler))

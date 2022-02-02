@@ -17,7 +17,7 @@ namespace l10n.Localization
             PlayerPrefs.SetString(prefsKey, args.NewLocale);
         }
 
-        private void OnEnable()
+        void Awake()
         {
             l10nDependencyProvider.Observable.SetLocale(PlayerPrefs.GetString(prefsKey));
         }

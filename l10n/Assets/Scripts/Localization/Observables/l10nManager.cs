@@ -23,7 +23,19 @@ namespace l10n.Localization.observables
 
         [SerializeField]
         private string m_currentLocale;
-        public string CurrentLocale => m_currentLocale ?? (m_currentLocale = "en-us");
+        public string CurrentLocale
+        {
+            get => m_currentLocale ?? (m_currentLocale = DefaultLanguage);
+            private set
+            {
+                if (value != null && value != "") m_currentLocale = value;
+                else m_currentLocale = DefaultLanguage;
+            }
+        }
+
+        [SerializeField]
+        private string m_defaultLanguage;
+        public string DefaultLanguage => m_defaultLanguage ?? (m_defaultLanguage = "en-us");
 
         private event Action<ILocaleChangedEventArgs> m_localeChanged;
 
@@ -67,24 +79,29 @@ namespace l10n.Localization.observables
         /// </summary>
         private l10nManager() { }
 
-        public void SetLocale(string newLocale)
+        protected override void Awake()
         {
-            if (CurrentLocale != newLocale && (newLocale != null && newLocale != ""))
-            {
-                Debug.Log("New Locale was set "+ newLocale);
-                m_currentLocale = newLocale;
+            base.Awake();
+            LoadLocale();
+        }
 
-                State = LocalizationObservableState.LoadingLocale;
-
-                Logger.Log(string.Format("New Locale {0} was set, loading translations", newLocale), LogType.Log);
-
-                LoadLocaleAsync(newLocale);
+        public void SetLocale(string newLocale, bool forceReload = false)
+        {
+            if (newLocale != CurrentLocale || forceReload) {
+                CurrentLocale = newLocale;
+                LoadLocale();
             }
+        }
+
+        private void LoadLocale()
+        {
+            LoadLocaleAsync(CurrentLocale);
         }
 
         private async void LoadLocaleAsync(string locale)
         {
-            Debug.Log("Loading Translations Async");
+            State = LocalizationObservableState.LoadingLocale;
+
             await Provider.LoadTranslationsAsync(locale);
 
             m_localeChanged?.Invoke(new LocaleChangedEventArgs(m_currentLocale));

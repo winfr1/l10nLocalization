@@ -34,6 +34,10 @@ namespace l10n.Localization.sources
         protected virtual void Awake()
         {
             LoadLocaleName();
+        }
+
+        protected virtual void OnEnable()
+        {
             if (Application.isPlaying) Provider.RegisterHandler(TranslationLanguage, this);
         }
 
