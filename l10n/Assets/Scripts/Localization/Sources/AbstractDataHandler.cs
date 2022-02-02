@@ -26,11 +26,14 @@ namespace l10n.Localization.sources
 
         #region ILocalizationDataHandler
         public abstract Task LoadTranslations();
+
+        public abstract void LoadLocaleName();
         #endregion
 
         #region Lifecycle
         protected virtual void Awake()
         {
+            LoadLocaleName();
             if (Application.isPlaying) Provider.RegisterHandler(TranslationLanguage, this);
         }
 

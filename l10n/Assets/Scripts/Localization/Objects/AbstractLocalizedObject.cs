@@ -13,18 +13,23 @@ namespace l10n.Localization.objects
     {
         [SerializeField]
         [Tooltip("The key used to identify the translation.")]
-        protected string key;
+        private string m_key;
+
+        public string Key
+        {
+            get => m_key;
+            set
+            {
+                m_key = value;
+                UpdateValue();
+            }
+        }
 
         private ILocalizationProvider m_provider;
 
         protected ILocalizationProvider Provider => m_provider ?? (m_provider = l10nDependencyProvider.Provider);
 
         protected override void OnLocaleChanged(ILocaleChangedEventArgs args)
-        {
-            UpdateValue();
-        }
-
-        protected void OnEnable()
         {
             UpdateValue();
         }

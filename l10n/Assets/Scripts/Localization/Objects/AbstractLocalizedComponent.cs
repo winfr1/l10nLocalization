@@ -15,9 +15,8 @@ namespace l10n.Localization.objects
 
 
         [ExecuteInEditMode]
-        protected override void Awake()
+        protected virtual void Awake()
         {
-            base.Awake();
             m_component = GetComponent<TComponent>();
         }
     }

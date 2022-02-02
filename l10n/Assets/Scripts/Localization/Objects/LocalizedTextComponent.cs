@@ -18,13 +18,14 @@ namespace l10n.Localization.objects
         {
             try
             {
-                var translation = Provider.Translate(key);
+                Debug.Log("Trying to get Translation for key " + Key);
+                var translation = Provider.Translate(Key);
                 m_component.text = (string)translation.Value;
             }
             catch (TranslationNotFoundException e)
             {
                 //TODO Fallback Value 
-                Observable.Logger.Log(e.Message, LogType.Exception);
+                Debug.LogException(e);
                 return;
             }
         }

@@ -1,4 +1,5 @@
-﻿using l10n.Localization.objects.Exceptions;
+﻿using l10n.common;
+using l10n.Localization.objects.Exceptions;
 using l10n.Localization.sources;
 using l10n.Localization.translations;
 using System;
@@ -25,7 +26,8 @@ namespace l10n.Localization.provider
 
         public Task LoadTranslationsAsync(string locale)
         {
-            m_translations.Clear();
+            Debug.Log("Loading Translations LocProvider");
+            Translations.Clear();
             ILocalizationDataHandler handler;
             if(DataHandlers.TryGetValue(locale, out handler))
             {
@@ -37,11 +39,13 @@ namespace l10n.Localization.provider
         public void RegisterHandler(string language, ILocalizationDataHandler handler)
         {
             DataHandlers.Add(language, handler);
+            l10nDependencyProvider.Observable.AvailableLanguages.Add(language);
         }
 
         public void UnregisterHandler(string language, ILocalizationDataHandler handler)
         {
             DataHandlers.Remove(language);
+            l10nDependencyProvider.Observable.AvailableLanguages.Remove(language);
         }
 
         public bool RegisterTranslation(string key, string locale, object value, object owner)

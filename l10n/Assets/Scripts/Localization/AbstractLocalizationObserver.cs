@@ -13,7 +13,7 @@ namespace l10n.Localization
         protected ILocalizationObservable Observable => m_observable ?? (m_observable = l10nDependencyProvider.Observable);
 
         #region Lifecycle
-        protected virtual void Awake()
+        protected virtual void OnEnable()
         {
             if (Application.isPlaying)
             {

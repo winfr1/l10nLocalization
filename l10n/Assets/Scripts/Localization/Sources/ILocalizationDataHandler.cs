@@ -15,5 +15,10 @@ namespace l10n.Localization.sources
         /// </summary>
         Task LoadTranslations();
 
+        /// <summary>
+        /// Loads the Locale Name from the Data Source
+        /// </summary>
+        void LoadLocaleName();
+
     }
 }

@@ -23,7 +23,7 @@ namespace l10n.Localization.observables
 
         [SerializeField]
         private string m_currentLocale;
-        public string CurrentLocale => m_currentLocale ?? string.Empty;
+        public string CurrentLocale => m_currentLocale ?? (m_currentLocale = "en-us");
 
         private event Action<ILocaleChangedEventArgs> m_localeChanged;
 
@@ -31,6 +31,7 @@ namespace l10n.Localization.observables
         {
             add
             {
+                Debug.Log("New Component registered for LocaleChanged Event");
                 m_localeChanged += value;
             }
             remove
@@ -68,8 +69,9 @@ namespace l10n.Localization.observables
 
         public void SetLocale(string newLocale)
         {
-            if (m_currentLocale != newLocale)
+            if (CurrentLocale != newLocale && (newLocale != null && newLocale != ""))
             {
+                Debug.Log("New Locale was set "+ newLocale);
                 m_currentLocale = newLocale;
 
                 State = LocalizationObservableState.LoadingLocale;
@@ -82,6 +84,7 @@ namespace l10n.Localization.observables
 
         private async void LoadLocaleAsync(string locale)
         {
+            Debug.Log("Loading Translations Async");
             await Provider.LoadTranslationsAsync(locale);
 
             m_localeChanged?.Invoke(new LocaleChangedEventArgs(m_currentLocale));

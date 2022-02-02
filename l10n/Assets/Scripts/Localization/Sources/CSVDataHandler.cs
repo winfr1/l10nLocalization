@@ -30,38 +30,47 @@ namespace l10n.Localization.sources
         private TextAsset m_dataSource;
         public TextAsset DataSource => m_dataSource;
 
-        /// <summary>
-        /// e
-        /// </summary>
-        [SerializeField]
-        private Dictionary<string, string> m_entries;
-        public Dictionary<string, string> Entries => m_entries ?? (m_entries = new Dictionary<string, string>());
+        public override void LoadLocaleName()
+        {
+            TranslationLanguage = DataSource.name;
+        }
 
         public override Task LoadTranslations()
         {
-            var text = DataSource.text;
-            var matches = Regex.Matches(text, "\"[\\s\\S]+?\"");
+            Debug.Log("Loading Translations");
+            string CSVFile = m_dataSource.text;
+            string[] lines = GetDataLines(CSVFile);
 
-            // Separates the CSV file by lines
-            var lines = text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-            TranslationLanguage = lines[0].Split(SeparatorType).Select(i => i.Trim()).ToList()[1];
+            // Iterate over all lines
+            for (var i = 0; i < lines.Length; i++)
+            {
+                string[] data = GetData(lines[i]);
 
-            if (Application.isPlaying) { 
-                // the first line contains the headlines
-                for (var i = 1; i < lines.Length; i++)
-                {
-                    var columns = lines[i].Split(SeparatorType)
-                        .Select(j => j.Trim())
-                        .ToList();
+                string key = data[0];
+                string value = data[1];
+                if (key == "" || value == "") continue;
 
-                    var key = columns[0];
-                    var value = columns[1];
-                    if (key == "" || value == "") continue;
-
-                    Provider.RegisterTranslation(key, TranslationLanguage, value, this);
-                }
+                if (Application.isPlaying) Provider.RegisterTranslation(key, TranslationLanguage, value, this);
             }
+            
             return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Separates a csv string by lines, removes the first line with column names
+        /// </summary>
+        /// <param name="csv">text to be separated</param>
+        /// <returns>Data Lines of the CSV</returns>
+        private string[] GetDataLines(string csv)
+        {
+            String[] lines = csv.Split( new[]{ Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+
+            return lines.Skip(1).ToArray();
+        }
+
+        private string[] GetData(string line)
+        {
+            return line.Split(SeparatorType);
         }
 
         [ContextMenu("Reload Data Source")]

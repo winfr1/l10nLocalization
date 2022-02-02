@@ -6,6 +6,8 @@ namespace l10n.Localization
     /// <summary>
     /// Synchronises the PlayerPrefs with the <see cref="ILocalizationObservable.CurrentLocale"/>
     /// </summary>
+    [AddComponentMenu(l10nDependencyProvider.MenuPrefix + "Localization Player Prefs Updater")]
+    [DisallowMultipleComponent]
     public sealed class LocalizationPrefsUpdater : AbstractLocalizationObserver
     {
         private readonly string prefsKey = "l10n.CurrentLocale";
