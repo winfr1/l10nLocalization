@@ -8,14 +8,14 @@ namespace l10n.Localization.observables
     {
         #region Properties
 
-        private readonly string s_newLocale;
-        public string NewLocale => s_newLocale;
+        private readonly string m_newLocale;
+        public string NewLocale => m_newLocale;
 
         #endregion
 
         public LocaleChangedEventArgs(string newLocale)
         {
-            s_newLocale = newLocale;
+            m_newLocale = newLocale;
         }
     }
 }

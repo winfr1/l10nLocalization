@@ -12,43 +12,45 @@ namespace l10n.Localization.provider
     public class LocalizationProvider : ILocalizationProvider
     {
         [SerializeField]
-        private Dictionary<string, AbstractTranslation> s_translations;
-        public IReadOnlyDictionary<string, AbstractTranslation> Translations => s_translations ?? (s_translations = new Dictionary<string, AbstractTranslation>());
+        private Dictionary<string, AbstractTranslation> m_translations;
+        public IDictionary<string, AbstractTranslation> Translations => m_translations ?? (m_translations = new Dictionary<string, AbstractTranslation>());
 
         [SerializeField]
-        private List<ILocalizationDataHandler> s_dataHandlers;
-        public IList<ILocalizationDataHandler> DataHandlers => s_dataHandlers ?? (s_dataHandlers = new List<ILocalizationDataHandler>());
+        private Dictionary<string, ILocalizationDataHandler> m_dataHandlers;
+        public IDictionary<string, ILocalizationDataHandler> DataHandlers => m_dataHandlers ?? (m_dataHandlers = new Dictionary<string, ILocalizationDataHandler>());
 
         [SerializeField]
-        private ILocalizationGenerator s_generator;
-        public ILocalizationGenerator Generator => s_generator ?? (s_generator = new TranslationFactory());
+        private ILocalizationGenerator m_generator;
+        public ILocalizationGenerator Generator => m_generator ?? (m_generator = new TranslationFactory());
 
         public Task LoadTranslationsAsync(string locale)
         {
-            s_translations.Clear();
-
-            foreach(var dataHandler in s_dataHandlers)
+            m_translations.Clear();
+            ILocalizationDataHandler handler;
+            if(DataHandlers.TryGetValue(locale, out handler))
             {
-                dataHandler.LoadTranslations(locale);
+                handler.LoadTranslations();
             }
             return Task.CompletedTask;
         }
 
-        public void RegisterHandler(ILocalizationDataHandler handler)
+        public void RegisterHandler(string language, ILocalizationDataHandler handler)
         {
-            DataHandlers.Add(handler);
+            DataHandlers.Add(language, handler);
         }
 
-        public void UnregisterHandler(ILocalizationDataHandler handler)
+        public void UnregisterHandler(string language, ILocalizationDataHandler handler)
         {
-            DataHandlers.Remove(handler);
+            DataHandlers.Remove(language);
         }
 
         public bool RegisterTranslation(string key, string locale, object value, object owner)
         {
             try
             {
-                s_translations.Add(key, Generator.GenerateTranslation(key, locale, value, owner));
+                var translation = Generator.GenerateTranslation(key, locale, value, owner);
+                m_translations.Add(key, translation);
+                
                 return true;
             }
             catch

@@ -1,32 +1,43 @@
 using l10n.Localization.observables;
 using l10n.Localization.provider;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace l10n.Localization.sources
 {
     /// <summary>
     /// Base class for Data Sources.
     /// </summary>
-    public abstract class AbstractDataHandler : ILocalizationDataHandler
+    public abstract class AbstractDataHandler : MonoBehaviour, ILocalizationDataHandler
     {
-        private ILocalizationProvider s_provider;
-        protected ILocalizationProvider Provider => s_provider ?? (s_provider = l10nDependencyProvider.Instance.Provider);
+        private ILocalizationProvider m_provider;
+        protected ILocalizationProvider Provider => m_provider ?? (m_provider = l10nDependencyProvider.Provider);
+
+        [SerializeField]
+        private string m_translationLanguage;
+        protected string TranslationLanguage
+        {
+            get => m_translationLanguage;
+            set
+            {
+                m_translationLanguage = value;
+            }
+        }
 
         #region ILocalizationDataHandler
-        public abstract Task LoadTranslations(string locale);
+        public abstract Task LoadTranslations();
         #endregion
 
         #region Lifecycle
         protected virtual void Awake()
         {
-            Provider.RegisterHandler(this);
+            if (Application.isPlaying) Provider.RegisterHandler(TranslationLanguage, this);
         }
 
         protected virtual void OnDisable()
         {
-            Provider.UnregisterHandler(this);
+            if (Application.isPlaying) Provider.UnregisterHandler(TranslationLanguage, this);
         }
-
         #endregion
     }
 }

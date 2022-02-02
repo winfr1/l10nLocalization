@@ -10,15 +10,14 @@ namespace l10n.Localization
     {
         private readonly string prefsKey = "l10n.CurrentLocale";
 
-        protected override void OnLocaleChanged(object sender, ILocaleChangedEventArgs args)
+        protected override void OnLocaleChanged(ILocaleChangedEventArgs args)
         {
             PlayerPrefs.SetString(prefsKey, args.NewLocale);
         }
 
-        protected override void Awake()
+        private void OnEnable()
         {
-            base.Awake();
-            l10nDependencyProvider.Instance.Observable.SetLocale(PlayerPrefs.GetString(prefsKey));
+            l10nDependencyProvider.Observable.SetLocale(PlayerPrefs.GetString(prefsKey));
         }
     }
 }

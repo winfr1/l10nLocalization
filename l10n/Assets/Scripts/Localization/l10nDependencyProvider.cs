@@ -9,27 +9,19 @@ namespace l10n.Localization
     /// <summary>
     /// Provides References to all the important classes in the framework.
     /// </summary>
-    public sealed class l10nDependencyProvider : Singleton<l10nDependencyProvider>
+    [ExecuteAlways]
+    public static class l10nDependencyProvider
     {
-        /// <summary>
-        /// protected constructor to prevent instantiation
-        /// </summary>
-        private l10nDependencyProvider() { }
+
+        public const string MenuPrefix = "Localization/";
 
         [SerializeField]
-        private ILocalizationObservable s_observable;
-        public ILocalizationObservable Observable => s_observable ?? (s_observable = l10nManager.Instance);
+        private static ILocalizationObservable m_observable;
+        public static ILocalizationObservable Observable => m_observable ?? (m_observable = l10nManager.Instance);
 
         [SerializeField]
-        private ILocalizationProvider s_provider;
-        public ILocalizationProvider Provider => s_provider ?? (s_provider = new LocalizationProvider());
-
-
-        protected override void Awake()
-        {
-            base.Awake();            
-        }
-
+        private static ILocalizationProvider m_provider;
+        public static ILocalizationProvider Provider => m_provider ?? (m_provider = new LocalizationProvider());
+        
     }
-
 }

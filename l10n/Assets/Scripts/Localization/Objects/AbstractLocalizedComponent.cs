@@ -10,8 +10,15 @@ namespace l10n.Localization.objects
     public abstract class AbstractLocalizedComponent<TComponent> : AbstractLocalizedObject
     {
         [SerializeField]
-        private TComponent s_component;
+        [Tooltip("The localized component attached to this gameobject.")]
+        protected TComponent m_component;
 
-        protected TComponent Component => s_component ?? (s_component = gameObject.GetComponent<TComponent>());
+
+        [ExecuteInEditMode]
+        protected override void Awake()
+        {
+            base.Awake();
+            m_component = GetComponent<TComponent>();
+        }
     }
 }

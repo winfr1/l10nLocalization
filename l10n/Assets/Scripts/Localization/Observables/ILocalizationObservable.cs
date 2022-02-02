@@ -20,7 +20,7 @@ namespace l10n.Localization
         /// <summary>
         /// Callback when the currently selected Locale <see cref="CurrentLocale"/> changes. 
         /// </summary>
-        event EventHandler<ILocaleChangedEventArgs> LocaleChanged;
+        event Action<ILocaleChangedEventArgs> LocaleChanged;
 
         /// <summary>
         /// Current State of the object.

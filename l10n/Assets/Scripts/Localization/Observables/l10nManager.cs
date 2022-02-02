@@ -1,7 +1,11 @@
 using l10n.common;
+using l10n.Localization.objects.Exceptions;
 using l10n.Localization.provider;
+using l10n.Localization.sources;
+using l10n.Localization.translations;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace l10n.Localization.observables
@@ -12,49 +16,48 @@ namespace l10n.Localization.observables
     /// </summary>
     public class l10nManager : Singleton<l10nManager>, ILocalizationObservable
     {
-
         #region Properties
         [SerializeField]
-        private ILocalizationLogger s_logger;
-        public ILocalizationLogger Logger => s_logger ?? (s_logger = new LocalizationLogger());
+        private ILocalizationLogger m_logger;
+        public ILocalizationLogger Logger => m_logger ?? (m_logger = new LocalizationLogger());
 
         [SerializeField]
-        private string s_currentLocale;
-        public string CurrentLocale => s_currentLocale ?? string.Empty;
+        private string m_currentLocale;
+        public string CurrentLocale => m_currentLocale ?? string.Empty;
 
-        private event EventHandler<ILocaleChangedEventArgs> s_localeChanged;
+        private event Action<ILocaleChangedEventArgs> m_localeChanged;
 
-        public event EventHandler<ILocaleChangedEventArgs> LocaleChanged
+        public event Action<ILocaleChangedEventArgs> LocaleChanged
         {
             add
             {
-                s_localeChanged += value;
+                m_localeChanged += value;
             }
             remove
             {
-                s_localeChanged -= value;
+                m_localeChanged -= value;
             }
         }
 
-        private LocalizationObservableState s_state = LocalizationObservableState.Initializing;
+        private LocalizationObservableState m_state = LocalizationObservableState.Initializing;
         public LocalizationObservableState State
         {
-            get { return s_state; }
+            get { return m_state; }
             set
             {
-                s_state = value;
-                StateChanged.Invoke(s_state);
+                m_state = value;
+                StateChanged?.Invoke(m_state);
             }
         }
 
         public event Action<LocalizationObservableState> StateChanged;
 
         [SerializeField]
-        private ILocalizationProvider s_provider;
-        public ILocalizationProvider Provider => s_provider ?? (s_provider = l10nDependencyProvider.Instance.Provider);
+        private ILocalizationProvider m_provider;
+        public ILocalizationProvider Provider => m_provider ?? (m_provider = l10nDependencyProvider.Provider);
 
-        private List<string> s_availableLangauges;
-        public IList<string> AvailableLanguages => s_availableLangauges ?? (s_availableLangauges = new List<string>());
+        private List<string> m_availableLangauges;
+        public IList<string> AvailableLanguages => m_availableLangauges ?? (m_availableLangauges = new List<string>());
 
         #endregion
 
@@ -65,9 +68,9 @@ namespace l10n.Localization.observables
 
         public void SetLocale(string newLocale)
         {
-            if (s_currentLocale != newLocale)
+            if (m_currentLocale != newLocale)
             {
-                s_currentLocale = newLocale;
+                m_currentLocale = newLocale;
 
                 State = LocalizationObservableState.LoadingLocale;
 
@@ -81,7 +84,7 @@ namespace l10n.Localization.observables
         {
             await Provider.LoadTranslationsAsync(locale);
 
-            s_localeChanged.Invoke(this, new LocaleChangedEventArgs(s_currentLocale));
+            m_localeChanged?.Invoke(new LocaleChangedEventArgs(m_currentLocale));
 
             State = LocalizationObservableState.LocaleLoaded;
         }

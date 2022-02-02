@@ -13,8 +13,7 @@ namespace l10n.Localization.sources
         /// <summary>
         /// Reloads the translations for the given locale.
         /// </summary>
-        /// <param name="locale">The locale that should be loaded</param>
-        Task LoadTranslations(string locale);
+        Task LoadTranslations();
 
     }
 }

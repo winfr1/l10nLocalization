@@ -9,12 +9,12 @@ namespace l10n.common
     /// Get the object via <see cref="Instance"/>.
     /// </summary>
     /// <typeparam name="T">MonoBehaviour component that should be generated as Singleton.</typeparam>
-    public abstract class Singleton<T> : MonoBehaviour where T: MonoBehaviour
+    public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         #region Properties
 
-        private static T s_instance;
-        private static bool s_isAvailable;
+        private static T m_instance;
+        private static bool m_isAvailable = true;
 
         // Lock object for thread safety
         private static readonly object padlock = new object();
@@ -29,22 +29,19 @@ namespace l10n.common
                 //provides thread safety
                 lock (padlock)
                 {
-                    if (!s_isAvailable)
+                    // Used when the application is quitting, but the instance is still called
+                    if (m_instance == null && m_isAvailable)
                     {
-                        return null;
-                    }
-                    if (s_instance == null)
-                    {
-                        s_instance = FindObjectOfType<T>();
+                        m_instance = FindObjectOfType<T>();
 
-                        if (s_instance == null)
+                        if (m_instance == null)
                         {
                             GameObject go = new GameObject(typeof(T).Name);
-                            s_instance = go.AddComponent<T>();
+                            m_instance = go.AddComponent<T>();
                             DontDestroyOnLoad(go);
                         }
                     }
-                    return s_instance;
+                    return m_instance;
                 }
             }
         }
@@ -59,8 +56,8 @@ namespace l10n.common
 
         protected virtual void OnDisable()
         {
-            s_instance = null;
-            s_isAvailable = false;
+            m_isAvailable = false;
+            m_instance = null;
         }
 
         /// <summary>
@@ -69,10 +66,9 @@ namespace l10n.common
         /// </summary>
         private void initOrDestroyInstance()
         {
-            if (s_instance == null)
+            if (m_instance == null)
             {
-                s_instance = this as T;
-                s_isAvailable = true;
+                m_instance = this as T;
                 DontDestroyOnLoad(gameObject);
             }
             else

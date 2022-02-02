@@ -8,19 +8,25 @@ namespace l10n.Localization
     public abstract class AbstractLocalizationObserver : MonoBehaviour
     {
         [NonSerialized]
-        private ILocalizationObservable s_observable;
+        private ILocalizationObservable m_observable;
 
-        protected ILocalizationObservable Observable => s_observable ?? (s_observable = l10nDependencyProvider.Instance.Observable);
+        protected ILocalizationObservable Observable => m_observable ?? (m_observable = l10nDependencyProvider.Observable);
 
         #region Lifecycle
         protected virtual void Awake()
         {
-            Observable.LocaleChanged += OnLocaleChanged;
+            if (Application.isPlaying)
+            {
+                Observable.LocaleChanged += OnLocaleChanged;
+            }            
         }
 
         protected virtual void OnDisable()
         {
-            Observable.LocaleChanged -= OnLocaleChanged;
+            if (Application.isPlaying)
+            {
+                Observable.LocaleChanged -= OnLocaleChanged;
+            }
         }
 
         #endregion
@@ -30,6 +36,6 @@ namespace l10n.Localization
         /// </summary>
         /// <param name="sender">Caller of this method</param>
         /// <param name="args">New Locale information</param>
-        protected abstract void OnLocaleChanged(object sender, ILocaleChangedEventArgs args);
+        protected abstract void OnLocaleChanged(ILocaleChangedEventArgs args);
     }
 }
