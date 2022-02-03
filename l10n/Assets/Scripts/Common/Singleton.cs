@@ -38,7 +38,7 @@ namespace l10n.common
                         {
                             GameObject go = new GameObject(typeof(T).Name);
                             m_instance = go.AddComponent<T>();
-                            DontDestroyOnLoad(go);
+                            if (Application.isPlaying) DontDestroyOnLoad(go);
                         }
                     }
                     return m_instance;
@@ -51,7 +51,7 @@ namespace l10n.common
         #region Lifecycle
         protected virtual void Awake()
         {
-            initOrDestroyInstance();
+            //initOrDestroyInstance();
         }
 
         protected virtual void OnDisable()
@@ -69,11 +69,11 @@ namespace l10n.common
             if (m_instance == null)
             {
                 m_instance = this as T;
-                DontDestroyOnLoad(gameObject);
+                if (Application.isPlaying) DontDestroyOnLoad(gameObject);
             }
             else
             {
-                Destroy(gameObject);
+                if (Application.isPlaying) Destroy(gameObject);
             }
         }
 

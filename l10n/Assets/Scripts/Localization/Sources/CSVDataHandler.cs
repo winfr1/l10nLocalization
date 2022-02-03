@@ -12,8 +12,8 @@ namespace l10n.Localization.sources
     /// <summary>
     /// Serializes CSV file and registers translations to the <see cref="ILocalizationProvider"/>
     /// </summary>
-    [ExecuteAlways]
     [AddComponentMenu(l10nDependencyProvider.MenuPrefix + "CSV Data Handler")]
+    [ExecuteInEditMode]
     public class CSVDataHandler : AbstractDataHandler
     {
         /// <summary>
@@ -49,7 +49,7 @@ namespace l10n.Localization.sources
                 string value = data[1];
                 if (key == "" || value == "") continue;
 
-                if (Application.isPlaying) Provider.RegisterTranslation(key, TranslationLanguage, value, this);
+                Provider.RegisterTranslation(key, TranslationLanguage, value, this);
             }
             
             return Task.CompletedTask;

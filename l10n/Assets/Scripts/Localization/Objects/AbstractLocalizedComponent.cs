@@ -11,13 +11,8 @@ namespace l10n.Localization.objects
     {
         [SerializeField]
         [Tooltip("The localized component attached to this gameobject.")]
-        protected TComponent m_component;
-
-
-        [ExecuteInEditMode]
-        protected virtual void Awake()
-        {
-            m_component = GetComponent<TComponent>();
-        }
+        private TComponent m_component;
+        protected TComponent Component => m_component ?? (m_component = GetComponent<TComponent>());
+        
     }
 }

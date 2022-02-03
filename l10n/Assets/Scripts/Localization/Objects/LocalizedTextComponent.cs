@@ -21,13 +21,13 @@ namespace l10n.Localization.objects
             {
                 Debug.Log("Trying to get Translation for key " + Key);
                 var translation = Provider.Translate(Key) as TextTranslation;
-                m_component.text = translation.Value;
+                Component.text = translation.Value;
             }
             catch (TranslationNotFoundException e)
             {
                 //TODO Fallback Value 
                 Debug.LogException(e);
-                m_component.text = "[NOT FOUND]";
+                Component.text = "[NOT FOUND]";
                 return;
             }
         }

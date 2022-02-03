@@ -14,6 +14,9 @@ namespace l10n.Localization.observables
     /// Central Manager for localization settings of the application. 
     /// Starts generation of translations during runtime. 
     /// </summary>
+    [ExecuteInEditMode]
+    [DisallowMultipleComponent]
+    [AddComponentMenu(l10nDependencyProvider.MenuPrefix + "Localization Manager")]
     public class l10nManager : Singleton<l10nManager>, ILocalizationObservable
     {
         #region Properties
@@ -25,17 +28,31 @@ namespace l10n.Localization.observables
         private string m_currentLocale;
         public string CurrentLocale
         {
-            get => m_currentLocale ?? (m_currentLocale = DefaultLanguage);
+            get
+            {
+                if (string.IsNullOrEmpty(m_currentLocale)) return m_currentLocale = DefaultLanguage;
+                return m_currentLocale;
+            }
             private set
             {
-                if (value != null && value != "") m_currentLocale = value;
+                if (!string.IsNullOrEmpty(value)) m_currentLocale = value;
                 else m_currentLocale = DefaultLanguage;
             }
         }
 
         [SerializeField]
         private string m_defaultLanguage;
-        public string DefaultLanguage => m_defaultLanguage ?? (m_defaultLanguage = "en-us");
+        public string DefaultLanguage
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(m_defaultLanguage) && AvailableLanguages.Count > 0)
+                {
+                    return m_defaultLanguage = AvailableLanguages[0];
+                }
+                else return m_defaultLanguage = "en-us";
+            }
+        }
 
         private event Action<ILocaleChangedEventArgs> m_localeChanged;
 
@@ -52,7 +69,7 @@ namespace l10n.Localization.observables
             }
         }
 
-        private LocalizationObservableState m_state = LocalizationObservableState.Initializing;
+        private LocalizationObservableState m_state;
         public LocalizationObservableState State
         {
             get { return m_state; }
@@ -69,8 +86,19 @@ namespace l10n.Localization.observables
         private ILocalizationProvider m_provider;
         public ILocalizationProvider Provider => m_provider ?? (m_provider = l10nDependencyProvider.Provider);
 
-        private List<string> m_availableLangauges;
-        public IList<string> AvailableLanguages => m_availableLangauges ?? (m_availableLangauges = new List<string>());
+        [SerializeField]
+        private List<string> m_availableLanguages;
+        public IList<string> AvailableLanguages => m_availableLanguages ?? (m_availableLanguages = new List<string>());
+
+        public void RegisterLanguage(string locale)
+        {
+            m_availableLanguages.Add(locale);
+        }
+
+        public void RemoveLanguage(string locale)
+        {
+            m_availableLanguages.Remove(locale);
+        }
 
         #endregion
 
@@ -82,7 +110,24 @@ namespace l10n.Localization.observables
         protected override void Awake()
         {
             base.Awake();
+            m_state = LocalizationObservableState.Initializing;
+            //LoadLocale();
+        }
+
+        protected void OnEnable()
+        {
+            var currentLocale = CurrentLocale;
+            Debug.Log("Enabled Manager with Locale " + currentLocale);
             LoadLocale();
+        }
+
+        protected override void OnDisable()
+        {
+            m_currentLocale = null;
+            m_defaultLanguage = null;
+            m_availableLanguages.Clear();
+            m_localeChanged = null;
+            m_provider = null;
         }
 
         public void SetLocale(string newLocale, bool forceReload = false)
@@ -93,6 +138,7 @@ namespace l10n.Localization.observables
             }
         }
 
+        [ContextMenu("Load Translations for Current Language")]
         private void LoadLocale()
         {
             LoadLocaleAsync(CurrentLocale);
@@ -102,9 +148,11 @@ namespace l10n.Localization.observables
         {
             State = LocalizationObservableState.LoadingLocale;
 
-            await Provider.LoadTranslationsAsync(locale);
+            await Provider.LoadTranslationsAsync();
 
             m_localeChanged?.Invoke(new LocaleChangedEventArgs(m_currentLocale));
+            Debug.Log("Invoked Locale Changed");
+
 
             State = LocalizationObservableState.LocaleLoaded;
         }

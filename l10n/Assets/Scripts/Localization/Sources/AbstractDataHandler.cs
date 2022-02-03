@@ -8,7 +8,7 @@ namespace l10n.Localization.sources
     /// <summary>
     /// Base class for Data Sources.
     /// </summary>
-    public abstract class AbstractDataHandler : MonoBehaviour, ILocalizationDataHandler
+   public abstract class AbstractDataHandler : MonoBehaviour, ILocalizationDataHandler
     {
         private ILocalizationProvider m_provider;
         protected ILocalizationProvider Provider => m_provider ?? (m_provider = l10nDependencyProvider.Provider);
@@ -28,15 +28,17 @@ namespace l10n.Localization.sources
         #endregion
 
         #region Lifecycle
-        protected virtual void Awake()
+
+        protected virtual void OnEnable()
         {
+            if (!Application.isPlaying) Debug.Log("Executed Enable in Edit Mode");
             LoadLocaleName();
-            if (Application.isPlaying) Provider.RegisterHandler(this);
+            Provider.RegisterHandler(this);
         }
 
         protected virtual void OnDisable()
         {
-            if (Application.isPlaying) Provider.UnregisterHandler(this);
+            Provider.UnregisterHandler(this);
         }
         #endregion
     }

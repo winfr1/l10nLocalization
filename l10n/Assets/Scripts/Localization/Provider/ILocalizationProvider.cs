@@ -33,7 +33,7 @@ namespace l10n.Localization.provider
         /// <summary>
         /// Loads all Translations from registered <see cref="ILocalizationDataHandler"/> asynchronously. 
         /// </summary>
-        Task LoadTranslationsAsync(string locale);
+        Task LoadTranslationsAsync();
 
         /// <summary>
         /// Unregisters <see cref="ILocalizationDataHandler"/> to this LocalizationProvider.

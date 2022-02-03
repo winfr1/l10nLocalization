@@ -15,18 +15,12 @@ namespace l10n.Localization
         #region Lifecycle
         protected virtual void OnEnable()
         {
-            if (Application.isPlaying)
-            {
-                Observable.LocaleChanged += OnLocaleChanged;
-            }            
+            Observable.LocaleChanged += OnLocaleChanged;            
         }
 
         protected virtual void OnDisable()
         {
-            if (Application.isPlaying)
-            {
-                Observable.LocaleChanged -= OnLocaleChanged;
-            }
+            Observable.LocaleChanged -= OnLocaleChanged;
         }
 
         #endregion

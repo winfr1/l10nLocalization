@@ -38,6 +38,18 @@ namespace l10n.Localization
         IList<string> AvailableLanguages { get; }
 
         /// <summary>
+        /// Registers new Language to <see cref="AvailableLanguages"/> 
+        /// </summary>
+        /// <param name="locale">Language to register</param>
+        void RegisterLanguage(string locale);
+
+        /// <summary>
+        /// Removes Language from <see cref="AvailableLanguages"/> 
+        /// </summary>
+        /// <param name="locale">Language to remove</param>
+        void RemoveLanguage(string locale);
+
+        /// <summary>
         /// The currently selected language setting.
         /// </summary>
         string CurrentLocale { get; }

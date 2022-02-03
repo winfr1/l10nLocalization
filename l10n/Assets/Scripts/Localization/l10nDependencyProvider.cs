@@ -21,7 +21,7 @@ namespace l10n.Localization
 
         [SerializeField]
         private static ILocalizationProvider m_provider;
-        public static ILocalizationProvider Provider => m_provider ?? (m_provider = new LocalizationProvider());
+        public static ILocalizationProvider Provider => m_provider ?? (m_provider = LocalizationProvider.Instance);
         
     }
 }
